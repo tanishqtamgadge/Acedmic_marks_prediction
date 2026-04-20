@@ -1,0 +1,697 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Luminary | Marks Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f3f4f8;
+            --surface: #ffffff;
+            --muted-surface: #edf1f7;
+            --text: #1d2839;
+            --muted-text: #637088;
+            --brand: #1763e6;
+            --brand-dark: #0e4fbe;
+            --line: #dde4f2;
+            --success: #148b59;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --shadow: 0 14px 30px rgba(15, 39, 86, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Manrope", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .page {
+            width: min(1080px, 100%);
+            margin: 0 auto;
+            padding: 34px 22px 46px;
+        }
+
+        .header {
+            margin-bottom: 22px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 19px;
+            font-weight: 700;
+            font-family: "Outfit", sans-serif;
+            margin-bottom: 18px;
+        }
+
+        .brand-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            background: var(--brand);
+            display: grid;
+            place-items: center;
+        }
+
+        .kicker {
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #7f8ca6;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        h1 {
+            margin: 10px 0 8px;
+            font-size: clamp(34px, 6vw, 52px);
+            line-height: 1.1;
+            font-family: "Outfit", sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        h1 i {
+            color: var(--brand);
+            font-style: italic;
+        }
+
+        .subtitle {
+            margin: 0;
+            max-width: 610px;
+            color: var(--muted-text);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .top {
+            display: grid;
+            grid-template-columns: 1.32fr 0.95fr;
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid #e8edf8;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .controls {
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .controls:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 34px rgba(15, 39, 86, 0.12);
+        }
+
+        .row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .label {
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            color: #4e5973;
+        }
+
+        .hours-val {
+            font-family: "Outfit", sans-serif;
+            font-size: 42px;
+            color: var(--brand);
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+
+        .hours-val small {
+            font-family: "Manrope", sans-serif;
+            font-size: 18px;
+            color: #5e6981;
+            font-weight: 500;
+            margin-left: 3px;
+        }
+
+        .range-wrap {
+            margin-top: 14px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 999px;
+            background: linear-gradient(to right, var(--brand) 50%, #d7e0f3 50%);
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--brand);
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 8px rgba(19, 87, 213, 0.36);
+            cursor: pointer;
+        }
+
+        .range-endpoints {
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #73809b;
+        }
+
+        .predict {
+            margin-top: 20px;
+            width: 100%;
+            border: 0;
+            border-radius: 11px;
+            background: var(--brand);
+            color: #fff;
+            height: 52px;
+            font-size: 20px;
+            font-weight: 800;
+            font-family: "Outfit", sans-serif;
+            cursor: pointer;
+            transition: background 0.25s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .predict:hover {
+            background: var(--brand-dark);
+            transform: translateY(-1px);
+        }
+
+        .predict:disabled {
+            opacity: 0.72;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-icon {
+            width: 17px;
+            height: 17px;
+            flex: 0 0 auto;
+        }
+
+        .side {
+            display: grid;
+            gap: 14px;
+            align-content: start;
+        }
+
+        .fact {
+            background: #e9edf4;
+            border-radius: 10px;
+            padding: 16px 14px;
+            display: flex;
+            gap: 10px;
+            color: #56627d;
+            border: 1px solid #dfe6f3;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .fact:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 18px rgba(44, 69, 114, 0.12);
+        }
+
+        .fact b {
+            display: block;
+            color: #23314c;
+            margin-bottom: 5px;
+        }
+
+        .inspire {
+            height: 170px;
+            border-radius: 10px;
+            background: linear-gradient(130deg, #3ea0aa 10%, #2e5d72 65%, #1f334b 100%);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 16px;
+            color: #fff;
+            display: flex;
+            align-items: flex-end;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .inspire:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(28, 62, 98, 0.24);
+        }
+
+        .inspire::before {
+            content: "";
+            position: absolute;
+            right: -14px;
+            top: 14px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 183, 139, 0.9), rgba(147, 77, 62, 0.3) 45%, rgba(0, 0, 0, 0));
+            opacity: 0.45;
+        }
+
+        .inspire::after {
+            content: "";
+            position: absolute;
+            inset: auto 18px -34px auto;
+            width: 128px;
+            height: 152px;
+            border-radius: 72px 72px 26px 26px;
+            background: linear-gradient(180deg, #5d2c31 0%, #2d1620 78%);
+            transform: rotate(-11deg);
+            opacity: 0.4;
+        }
+
+        .inspire-text {
+            position: relative;
+            z-index: 2;
+            font-size: 15px;
+            line-height: 1.3;
+            font-weight: 700;
+            max-width: 190px;
+        }
+
+        .inspire-text small {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+            color: #d7ebff;
+        }
+
+        .result-card {
+            margin-top: 24px;
+            padding: 24px 28px;
+            border-radius: var(--radius-xl);
+            background: var(--surface);
+            border: 1px solid #e4ebfa;
+            display: grid;
+            grid-template-columns: 1.2fr 0.9fr;
+            gap: 14px;
+            align-items: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 34px rgba(15, 39, 86, 0.1);
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brand);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: #ecf2ff;
+            padding: 6px 10px;
+            border-radius: 999px;
+        }
+
+        .result-title {
+            margin: 12px 0 8px;
+            font-size: 43px;
+            font-family: "Outfit", sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .result-copy {
+            margin: 0;
+            color: #5f6c84;
+            max-width: 520px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+            max-width: 440px;
+        }
+
+        .metric {
+            background: var(--muted-surface);
+            border-radius: 11px;
+            padding: 12px;
+            border: 1px solid #e2eaf8;
+        }
+
+        .metric span {
+            display: block;
+            font-size: 10px;
+            color: #607088;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+        }
+
+        .metric b {
+            font-size: 25px;
+            font-family: "Outfit", sans-serif;
+            margin-top: 2px;
+            display: block;
+        }
+
+        .metric .trend-pos {
+            color: var(--success);
+            font-size: 22px;
+        }
+
+        .ring-wrap {
+            display: grid;
+            place-items: center;
+        }
+
+        .ring {
+            width: 228px;
+            height: 228px;
+            position: relative;
+        }
+
+        .ring svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .ring-track {
+            stroke: #d9e2f1;
+        }
+
+        #progress-ring {
+            stroke: var(--brand);
+            transition: stroke-dashoffset 0.95s cubic-bezier(0.25, 1, 0.4, 1);
+        }
+
+        .ring-content {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            text-align: center;
+        }
+
+        .ring-score {
+            font-family: "Outfit", sans-serif;
+            font-size: 63px;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+        }
+
+        .ring-sub {
+            margin-top: 5px;
+            font-size: 15px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #50607d;
+            font-weight: 700;
+        }
+
+        .footer-stats {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .footer-card {
+            background: #eef2f8;
+            border: 1px solid #e2eaf8;
+            border-radius: 11px;
+            padding: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .footer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 16px rgba(55, 79, 116, 0.1);
+        }
+
+        .footer-card.first { border-left: 3px solid var(--brand); }
+        .footer-card.second { border-left: 3px solid #8160a7; }
+        .footer-card.third { border-left: 3px solid #5d6f87; }
+
+        .footer-card span {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #60708a;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .footer-card b {
+            display: block;
+            margin-top: 2px;
+            font-size: 32px;
+            font-family: "Outfit", sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 980px) {
+            .top, .result-card {
+                grid-template-columns: 1fr;
+            }
+            .ring-wrap {
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .page {
+                padding: 20px 14px 30px;
+            }
+            .footer-stats {
+                grid-template-columns: 1fr;
+            }
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+            .result-title {
+                font-size: 34px;
+            }
+            .ring {
+                width: 190px;
+                height: 190px;
+            }
+            .ring-score {
+                font-size: 52px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <header class="header">
+            <div class="brand">
+                <div class="brand-icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3l1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2L12 3zM6 14l.7 2.2L9 17l-2.3.8L6 20l-.7-2.2L3 17l2.3-.8L6 14zm12-1l.8 2.5L21 16.3l-2.2.7L18 20l-.8-3-2.2-.7 2.2-.8L18 13z" fill="#ffffff"/>
+                    </svg>
+                </div>
+                Academic Luminary
+            </div>
+            <p class="kicker">Forecast Your Future</p>
+            <h1>Academic Marks <i>Predictor</i></h1>
+            <p class="subtitle">Utilize our Luminary AI to estimate your performance based on current study patterns. Fine-tune your effort to see the potential outcome.</p>
+        </header>
+
+        <section class="top">
+            <div class="card controls">
+                <div class="row">
+                    <div class="label">STUDY HOURS</div>
+                    <div class="hours-val"><span id="hours-display">8.5</span><small>/day</small></div>
+                </div>
+                <div class="range-wrap">
+                    <input id="hours-slider" type="range" min="1" max="16" step="0.5" value="8.5">
+                    <div class="range-endpoints"><span>1 Hour</span><span>16 Hours</span></div>
+                </div>
+                <button id="predict-btn" class="predict" type="button">
+                    <span id="btn-text">Predict Now</span>
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M14 5c3.5.6 5.4 2.5 6 6-1.8 1.7-4 3.9-6 5.8l-2.9-.5-.5-2.9C12.4 11.5 14.3 9.3 16 7.5M14 5l2.5-2.5M10.7 14.2L7 18l-.8 3.5L9.8 20l3.7-3.7M4 16l3 1-1 3-2 1-1-2 1-3z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="side">
+                <article class="fact">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M11 2a7 7 0 00-4.6 12.3c.4.3.6.8.6 1.3V17h8v-1.4c0-.5.2-1 .6-1.3A7 7 0 0011 2zm-2 17h4m-3 3h2" stroke="#6780a6" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                    <div>
+                        <b>Did you know?</b>
+                        Students who maintain consistent 6-8 hour study blocks see a 15% higher retention rate than cramming sessions.
+                    </div>
+                </article>
+                <article class="inspire">
+                    <div class="inspire-text"><small>Inspiration</small>Focus is the bridge between goals and achievement.</div>
+                </article>
+            </div>
+        </section>
+
+        <section class="result-card">
+            <div>
+                <span class="badge">Projection Complete</span>
+                <h2 class="result-title">Predicted Performance</h2>
+                <p class="result-copy" id="result-copy">Based on your input, you are trending towards an exceptional semester outcome.</p>
+                <div class="metrics">
+                    <div class="metric">
+                        <span>Confidence Score</span>
+                        <b id="confidence-score">94%</b>
+                    </div>
+                    <div class="metric">
+                        <span>Trend</span>
+                        <b id="trend-label" class="trend-pos">~ Positive</b>
+                    </div>
+                </div>
+            </div>
+            <div class="ring-wrap">
+                <div class="ring">
+                    <svg viewBox="0 0 256 256" aria-hidden="true">
+                        <circle class="ring-track" cx="128" cy="128" r="110" fill="transparent" stroke-width="10"></circle>
+                        <circle id="progress-ring" cx="128" cy="128" r="110" fill="transparent" stroke-width="10" stroke-linecap="round" stroke-dasharray="691" stroke-dashoffset="138"></circle>
+                    </svg>
+                    <div class="ring-content">
+                        <div>
+                            <div id="score-text" class="ring-score">88</div>
+                            <div class="ring-sub">Percent</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="footer-stats">
+            <article class="footer-card first">
+                <span>Current Average</span>
+                <b id="current-average">76.4%</b>
+            </article>
+            <article class="footer-card second">
+                <span>Target Grade</span>
+                <b id="target-grade">A+</b>
+            </article>
+            <article class="footer-card third">
+                <span>Effort Multiplier</span>
+                <b id="effort-multiplier">x1.4</b>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        const slider = document.getElementById("hours-slider");
+        const display = document.getElementById("hours-display");
+        const predictBtn = document.getElementById("predict-btn");
+        const btnText = document.getElementById("btn-text");
+        const scoreText = document.getElementById("score-text");
+        const ring = document.getElementById("progress-ring");
+        const resultCopy = document.getElementById("result-copy");
+        const confidenceScore = document.getElementById("confidence-score");
+        const trendLabel = document.getElementById("trend-label");
+        const effortMultiplier = document.getElementById("effort-multiplier");
+        const currentAverage = document.getElementById("current-average");
+        const targetGrade = document.getElementById("target-grade");
+
+        function updateSliderFill(value) {
+            const min = Number(slider.min);
+            const max = Number(slider.max);
+            const percent = ((value - min) * 100) / (max - min);
+            slider.style.background = `linear-gradient(to right, #1763e6 ${percent}%, #d7e0f3 ${percent}%)`;
+        }
+
+        function computeUI(prediction) {
+            const confidence = Math.min(98, Math.max(81, Math.round(80 + (prediction / 100) * 18)));
+            const effort = (1 + Number(slider.value) / 20).toFixed(1);
+            let trend = "~ Moderate";
+            let message = "Based on your input, consistency will be the key to a stronger semester outcome.";
+            let grade = "B+";
+
+            if (prediction >= 90) {
+                trend = "~ Exceptional";
+                message = "Based on your input, you are trending towards an exceptional semester outcome.";
+                grade = "A+";
+            } else if (prediction >= 80) {
+                trend = "~ Positive";
+                message = "Based on your input, you are moving in a very positive direction.";
+                grade = "A";
+            } else if (prediction >= 70) {
+                trend = "~ Stable";
+                message = "Based on your input, you are on track, with room to reach a higher band.";
+                grade = "B";
+            }
+
+            confidenceScore.textContent = `${confidence}%`;
+            trendLabel.textContent = trend;
+            trendLabel.className = prediction >= 80 ? "trend-pos" : "";
+            resultCopy.textContent = message;
+            effortMultiplier.textContent = `x${effort}`;
+            currentAverage.textContent = `${(prediction * 0.87).toFixed(1)}%`;
+            targetGrade.textContent = grade;
+        }
+
+        slider.addEventListener("input", (event) => {
+            display.textContent = event.target.value;
+            updateSliderFill(Number(event.target.value));
+        });
+
+        predictBtn.addEventListener("click", async () => {
+            predictBtn.disabled = true;
+            btnText.textContent = "Predicting...";
+
+            try {
+                const response = await fetch("/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ hours: slider.value })
+                });
+
+                const data = await response.json();
+                if (data.status === "success") {
+                    scoreText.textContent = Math.round(data.prediction);
+                    ring.style.strokeDashoffset = data.dash_offset;
+                    computeUI(data.prediction);
+                } else {
+                    alert("Prediction service returned an invalid response.");
+                }
+            } catch (error) {
+                console.error("Prediction failed:", error);
+                alert("Connection to prediction engine failed. Please try again.");
+            } finally {
+                predictBtn.disabled = false;
+                btnText.textContent = "Predict Now";
+            }
+        });
+
+        updateSliderFill(Number(slider.value));
+    </script>
+</body>
+</html>
+
